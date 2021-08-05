@@ -1,8 +1,14 @@
 <?php
 /**
- * File: template-parts/wpdtrt-conversation/content.php
+ * File: template-parts/wpdtrt-conversation/content-conversation.php
  *
  * Template to display plugin output in shortcodes and widgets.
+ *
+ * Example:
+ *   [conversation]
+ *   [exchange ...]
+ *   [exchange ...]
+ *   [conversation]
  *
  * Since:
  *   0.9.5 - DTRT WordPress Plugin Boilerplate Generator
@@ -38,6 +44,9 @@ if ( isset( $context ) ) {
 	$content = '';
 }
 
+$content = str_replace( '<br />', '', $content );
+$content = str_replace( '<br>', '', $content );
+
 // load the data
 // $plugin->get_api_data();
 // $foo = $plugin->get_api_data_bar();
@@ -48,9 +57,11 @@ echo $before_title . $title . $after_title;
 ?>
 
 <div class="wpdtrt-conversation">
-	<?php
-		echo $content;
-	?>
+	<ol>
+		<?php
+			echo do_shortcode( $content ); // parse any enclosed shortcodes.
+		?>
+	</ol>
 </div>
 
 <?php

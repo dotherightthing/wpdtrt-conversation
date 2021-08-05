@@ -20,10 +20,33 @@ Core CSS properties may be overwritten by changing the variable values in your t
 
 See `scss/variables/_css.scss`.
 
+### Shortcode
+
+Please use the provided shortcodes to embed a conversation:
+
+```php
+<!-- within the editor -->
+[wpdtrt_conversation_shortcode]
+[wpdtrt_conversation_exchange_shortcode questioner="Chingis" questioner_country="Mongolia" question="Sain uu?" respondent="John" respondent_country="New Zealand" response="Hi"]
+[/wpdtrt_conversation_shortcode]
+
+// in a PHP template, as a template tag
+<?php echo do_shortcode( '[wpdtrt_conversation_shortcode][wpdtrt_conversation_exchange_shortcode questioner="Chingis" questioner_country="Mongolia" question="Sain uu?" respondent="John" respondent_country="New Zealand" response="Hi"][/wpdtrt_conversation_shortcode]' ); ?>
+```
+
+Options
+
+1. `questioner="Questioner's name"`
+2. `questioner_country="Mongolia"` - only `Mongolia` and `New Zealand` flag icons are currently supported
+3. `question="Sain uu?"`
+4. `respondent="Respondent's name"`
+5. `respondent_country="New Zealand"` - only `Mongolia` and `New Zealand` flag icons are currently supported
+6. `response="Hello"`
+
 ## Dependencies
 
 None.
 
 ## Demo pages
 
-None.
+* Conversation: [Don't Believe The Hype - Day 41](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/mongolia/41/tsenkher-hot-springs/)

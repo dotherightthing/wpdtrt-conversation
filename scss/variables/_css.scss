@@ -12,5 +12,8 @@
 //
 
 :root {
-    --wpdtrt-conversation-demo-bgcolor: transparent;
+    --wpdtrt-conversation-speech: hsla(0, 100%, 100%, 1);
+    --wpdtrt-conversation-speaker-name: hsla(360, 100%, 0%, 1);
+    --wpdtrt-conversation-speaker-a-bgcolor: hsla(360, 100%, 0%, 1);
+    --wpdtrt-conversation-speaker-b-bgcolor: hsla(360, 100%, 0%, 1);
 }

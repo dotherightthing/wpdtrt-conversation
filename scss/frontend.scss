@@ -34,7 +34,110 @@
 @import '../node_modules/wpdtrt-scss/scss/_frontend';
 
 .wpdtrt-conversation {
-    &__demo {
-        background-color: var(--wpdtrt-conversation-demo-bgcolor);
+    $block: &;
+
+    padding-top: 16px;
+
+    br {
+        @include wpdtrt-scss-hide-all; // TODO: shortcode issue.
+    }
+
+    ol {
+        .entry-content & {
+            @extend %wpdtrt-scss-reset-list;
+        }
+    }
+
+    &__exchange {
+        .entry-content & {
+            margin-bottom: 40px;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: -8px;
+        left: -52px;
+        width: 38px;
+        border: 1px solid var(--wpdtrt-conversation-speaker-a-bgcolor);
+        border-radius: 50%;
+    }
+
+    &__name {
+        display: block;
+        color: var(--wpdtrt-conversation-speaker-name);
+        font-style: normal;
+
+        &::after {
+            content: ':';
+        }
+    }
+
+    &__speech {
+        position: relative;
+        background-color: var(--wpdtrt-conversation-speaker-a-bgcolor);
+        color: var(--wpdtrt-conversation-speech);
+        padding: .55em 8px .45em;
+        border-radius: 6px;
+        margin: 0;
+
+        .entry-content & {
+            margin: 4px 0 12px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: .25rem;
+            left: -.7rem;
+            z-index: 1;
+            border: .5rem solid transparent;
+            border-top-color: var(--wpdtrt-conversation-speaker-a-bgcolor);
+            border-left-color: var(--wpdtrt-conversation-speaker-a-bgcolor);
+            transform: rotate(100deg);
+        }
+    }
+
+    &__speech-liner {
+        position: relative;
+        z-index: 2;
+    }
+
+    &__speaker {
+        position: relative;
+        margin: 0 0 0 52px;
+
+        &:last-child {
+            #{$block}__icon {
+                border-color: var(--wpdtrt-conversation-speaker-b-bgcolor);
+            }
+
+            #{$block}__speech {
+                background-color: var(--wpdtrt-conversation-speaker-b-bgcolor);
+
+                &::after {
+                    border-top-color: var(--wpdtrt-conversation-speaker-b-bgcolor);
+                    border-left-color: var(--wpdtrt-conversation-speaker-b-bgcolor);
+                }
+            }
+        }
+    }
+
+    @include media('>=tablet') {
+        .entry-content & {
+            max-width: 75%;
+        }
+    }
+
+    @include media('>=laptop') {
+        .entry-content & {
+            max-width: 85%;
+        }
+    }
+
+    @include media('>=desktop') {
+        .entry-content & {
+            max-width: 75%;
+        }
     }
 }

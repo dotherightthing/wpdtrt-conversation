@@ -132,10 +132,7 @@ if ( is_admin() ) {
 // sub classes, not loaded via PSR-4.
 // remove the includes you don't need, edit the files you do need.
 require_once WPDTRT_CONVERSATION_PATH . 'src/class-wpdtrt-conversation-plugin.php';
-require_once WPDTRT_CONVERSATION_PATH . 'src/class-wpdtrt-conversation-rewrite.php';
 require_once WPDTRT_CONVERSATION_PATH . 'src/class-wpdtrt-conversation-shortcode.php';
-require_once WPDTRT_CONVERSATION_PATH . 'src/class-wpdtrt-conversation-taxonomy.php';
-require_once WPDTRT_CONVERSATION_PATH . 'src/class-wpdtrt-conversation-widget.php';
 
 // log & trace helpers.
 global $debug;
@@ -160,8 +157,7 @@ register_activation_hook( dirname( __FILE__ ), 'wpdtrt_conversation_activate' );
 
 add_action( 'init', 'wpdtrt_conversation_plugin_init', 0 );
 add_action( 'init', 'wpdtrt_conversation_shortcode_init', 100 );
-add_action( 'init', 'wpdtrt_conversation_taxonomy_init', 100 );
-add_action( 'widgets_init', 'wpdtrt_conversation_widget_init', 10 );
+add_action( 'init', 'wpdtrt_conversation_exchange_shortcode_init', 100 );
 
 register_deactivation_hook( dirname( __FILE__ ), 'wpdtrt_conversation_deactivate' );
 
@@ -237,15 +233,7 @@ function wpdtrt_conversation_plugin_init() {
 	 * See:
 	 * - <Options - Adding global options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-global-options>
 	 */
-	$plugin_options = array(
-		'pluginoption1' => array(
-			'type'    => 'text',
-			'label'   => __( 'Field label', 'wpdtrt-conversation' ),
-			'size'    => 10,
-			'tip'     => __( 'Helper text', 'wpdtrt-conversation' ),
-			'default' => 'Fallback value',
-		),
-	);
+	$plugin_options = array();
 
 	/**
 	 * Array: instance_options
@@ -256,12 +244,41 @@ function wpdtrt_conversation_plugin_init() {
 	 * - <Options - Adding shortcode or widget options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options>
 	 */
 	$instance_options = array(
-		'instanceoption1' => array(
+		'questioner'         => array(
 			'type'    => 'text',
-			'label'   => __( 'Field label', 'wpdtrt-conversation' ),
-			'size'    => 10,
-			'tip'     => __( 'Helper text', 'wpdtrt-conversation' ),
-			'default' => '',
+			'label'   => __( 'Questioner\'s name', 'wpdtrt-conversation' ),
+			'size'    => 50,
+			'default' => 'Questioner',
+		),
+		'questioner_country' => array(
+			'type'    => 'text',
+			'label'   => __( 'Questioner\'s country', 'wpdtrt-conversation' ),
+			'size'    => 50,
+			'default' => 'Questioner Country (Mongolia | New Zealand)',
+		),
+		'question'           => array(
+			'type'    => 'text',
+			'label'   => __( 'Question', 'wpdtrt-conversation' ),
+			'size'    => 200,
+			'default' => 'Question',
+		),
+		'respondent'         => array(
+			'type'    => 'text',
+			'label'   => __( 'Respondent\'s name', 'wpdtrt-conversation' ),
+			'size'    => 50,
+			'default' => 'Respondent',
+		),
+		'respondent_country' => array(
+			'type'    => 'text',
+			'label'   => __( 'Respondent\'s country', 'wpdtrt-conversation' ),
+			'size'    => 50,
+			'default' => 'Respondent Country (Mongolia | New Zealand)',
+		),
+		'response'           => array(
+			'type'    => 'text',
+			'label'   => __( 'Response', 'wpdtrt-conversation' ),
+			'size'    => 200,
+			'default' => 'Response',
 		),
 	);
 
@@ -298,7 +315,14 @@ function wpdtrt_conversation_plugin_init() {
 	 * See:
 	 * - <Settings page - Adding a demo shortcode: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Settings-page:-Adding-a-demo-shortcode>
 	 */
-	$demo_shortcode_params = array();
+	$demo_shortcode_params = array(
+		'questioner'         => 'Chingis',
+		'questioner_country' => 'Mongolia',
+		'question'           => 'Sain uu?',
+		'respondent'         => 'John',
+		'respondent_country' => 'New Zealand',
+		'response'           => 'Hello',
+	);
 
 	/**
 	 * Plugin configuration
@@ -323,24 +347,6 @@ function wpdtrt_conversation_plugin_init() {
 }
 
 /**
- * Group: Rewrite config
- */
-
-/**
- * Function: wpdtrt_conversation_rewrite_init
- *
- * Register Rewrite.
- */
-function wpdtrt_conversation_rewrite_init() {
-
-	global $wpdtrt_conversation_plugin;
-
-	$wpdtrt_conversation_rewrite = new WPDTRT_Conversation_Rewrite(
-		array()
-	);
-}
-
-/**
  * Group: Shortcode config
  */
 
@@ -358,118 +364,33 @@ function wpdtrt_conversation_shortcode_init() {
 			'name'                      => 'wpdtrt_conversation_shortcode',
 			'plugin'                    => $wpdtrt_conversation_plugin,
 			'template'                  => 'conversation',
-			'selected_instance_options' => array(
-				'instanceoption1',
-			),
+			'selected_instance_options' => array(),
 		)
 	);
 }
 
 /**
- * Group: Taxonomy config
- */
-
-/**
- * Function: wpdtrt_conversation_taxonomy_init
+ * Function: wpdtrt_conversation_exchange_shortcode_init
  *
- * Register Taxonomy.
- *
- * Returns:
- *   object - Taxonomy/
+ * Register Shortcode.
  */
-function wpdtrt_conversation_taxonomy_init() {
+function wpdtrt_conversation_exchange_shortcode_init() {
 
 	global $wpdtrt_conversation_plugin;
 
-	$wpdtrt_conversation_taxonomy = new WPDTRT_Conversation_Taxonomy(
+	$wpdtrt_conversation_exchange_shortcode = new WPDTRT_Conversation_Shortcode(
 		array(
-			'name'                      => 'wpdtrt_conversation_things',
+			'name'                      => 'wpdtrt_conversation_exchange_shortcode',
 			'plugin'                    => $wpdtrt_conversation_plugin,
+			'template'                  => 'exchange',
 			'selected_instance_options' => array(
-				'instanceoption1',
-			),
-			'taxonomy_options'          => array(
-				'option1' => array(
-					'type'              => 'text',
-					'label'             => esc_html__( 'Option 1', 'wpdtrt-conversation' ),
-					'admin_table'       => true,
-					'admin_table_label' => esc_html__( '1', 'wpdtrt-conversation ' ),
-					'admin_table_sort'  => true,
-					'tip'               => 'Enter something',
-					'todo_condition'    => 'foo !== "bar"',
-				),
-			),
-			'labels'                    => array(
-				'slug'                       => 'wpdtrt_conversation_thing',
-				'description'                => __( 'Things', 'wpdtrt-conversation' ),
-				'posttype'                   => 'post',
-				'name'                       => __( 'Things', 'taxonomy general name' ),
-				'singular_name'              => _x( 'Thing', 'taxonomy singular name' ),
-				'menu_name'                  => __( 'Things', 'wpdtrt-conversation' ),
-				'all_items'                  => __( 'All Things', 'wpdtrt-conversation' ),
-				'add_new_item'               => __( 'Add New Thing', 'wpdtrt-conversation' ),
-				'edit_item'                  => __( 'Edit Thing', 'wpdtrt-conversation' ),
-				'view_item'                  => __( 'View Thing', 'wpdtrt-conversation' ),
-				'update_item'                => __( 'Update Thing', 'wpdtrt-conversation' ),
-				'new_item_name'              => __( 'New Thing Name', 'wpdtrt-conversation' ),
-				'parent_item'                => __( 'Parent Thing', 'wpdtrt-conversation' ),
-				'parent_item_colon'          => __( 'Parent Thing:', 'wpdtrt-conversation' ),
-				'search_items'               => __( 'Search Things', 'wpdtrt-conversation' ),
-				'popular_items'              => __( 'Popular Things', 'wpdtrt-conversation' ),
-				'separate_items_with_commas' => __( 'Separate Things with commas', 'wpdtrt-conversation' ),
-				'add_or_remove_items'        => __( 'Add or remove Things', 'wpdtrt-conversation' ),
-				'choose_from_most_used'      => __( 'Choose from most used Things', 'wpdtrt-conversation' ),
-				'not_found'                  => __( 'No Things found', 'wpdtrt-conversation' ),
+				'questioner',
+				'questioner_country',
+				'question',
+				'respondent',
+				'respondent_country',
+				'response',
 			),
 		)
 	);
-
-	// return a reference for unit testing.
-	return $wpdtrt_conversation_taxonomy;
-}
-
-/**
- * Group: Widget config
- */
-
-/**
- * Function: wpdtrt_conversation_widget_init
- *
- * Register a WordPress widget, passing in an instance of our custom widget class.
- *
- * Note:
- * - The plugin does not require registration, but widgets and shortcodes do.
- * - widget_init fires before init, unless init has a priority of 0
- *
- * Uses:
- *   ../../../../wp-includes/widgets.php
- *   https://github.com/dotherightthing/wpdtrt/tree/master/library/sidebars.php
- *
- * See:
- * - <https://codex.wordpress.org/Function_Reference/register_widget#Example>
- * - <https://wp-mix.com/wordpress-widget_init-not-working/>
- * - <https://codex.wordpress.org/Plugin_API/Action_Reference>
- *
- * TODO:
- * - Add form field parameters to the options array
- * - Investigate the 'classname' option
- */
-function wpdtrt_conversation_widget_init() {
-
-	global $wpdtrt_conversation_plugin;
-
-	$wpdtrt_conversation_widget = new WPDTRT_Conversation_Widget(
-		array(
-			'name'                      => 'wpdtrt_conversation_widget',
-			'title'                     => __( 'DTRT Conversation Widget', 'wpdtrt-conversation' ),
-			'description'               => __( 'Shortcode to author a conversation between two people.', 'wpdtrt-conversation' ),
-			'plugin'                    => $wpdtrt_conversation_plugin,
-			'template'                  => 'conversation',
-			'selected_instance_options' => array(
-				'instanceoption1',
-			),
-		)
-	);
-
-	register_widget( $wpdtrt_conversation_widget );
 }
