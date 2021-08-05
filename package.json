@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "wpdtrt-conversation",
+  "version": "0.1.0",
+  "description": "Shortcode to author a conversation between two people.",
+  "keywords": ["conversation", "chat", "wordpress-plugin"],
+  "main": "wpdtrt-conversation.php",
+  "person": {
+    "name": "Dan Smith",
+    "email": "dev@dotherightthing.co.nz",
+    "url": "https://profiles.wordpress.org/dotherightthingnz"
+  },
+  "contributors": [
+    {
+      "name": "Dan Smith",
+      "email": "dev@dotherightthing.co.nz",
+      "url": "https://profiles.wordpress.org/dotherightthingnz"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/dotherightthing/wpdtrt-conversation/issues"
+  },
+  "config": {
+    "wpdtrt_base_url_local": "http://localhostname.dan",
+    "wpdtrt_npm_scripts": "./node_modules/wpdtrt-npm-scripts"
+  },
+  "scripts": {
+    "changelog": "npm run changelog --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "compile": "npm run compile --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "docs": "npm run docs --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "lint": "npm run lint --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "release": "npm run release --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "test": "npm run test --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "test:jsui": "npx cypress open",
+    "version": "npm run version --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "watch": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotherightthing/wpdtrt-conversation"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/dotherightthing/wpdtrt-conversation",
+  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-conversation",
+  "dependencies": {
+    "wpdtrt-scss": "github:dotherightthing/wpdtrt-scss#semver:*"
+  },
+  "devDependencies": {
+    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts#semver:*"
+  }
+}

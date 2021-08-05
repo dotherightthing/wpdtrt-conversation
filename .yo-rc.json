@@ -1,0 +1,22 @@
+{
+  "generator-wpdtrt-plugin-boilerplate": {
+    "authorAbbreviation": "DTRT",
+    "authorEmail": "dev@dotherightthing.co.nz",
+    "authorName": "Dan Smith",
+    "authorSupportEmail": "support@dotherightthing.co.nz",
+    "authorWordPressName": "dotherightthingnz",
+    "description": "Shortcode to author a conversation between two people.",
+    "donateUrl": "https://dotherightthing.co.nz",
+    "generatorVersion": "0.9.5",
+    "githubUserName": "dotherightthing",
+    "license": "GPLv2 or later",
+    "licenseUrl": "http://www.gnu.org/licenses/gpl-2.0.html",
+    "name": "wpdtrt-conversation",
+    "nameFriendly": "DTRT Conversation",
+    "nameSafe": "wpdtrt_conversation",
+    "phpVersion": "7.2.20",
+    "defaultVersion": "0.1.0",
+    "tags": "conversation, chat",
+    "wpVersion": "5.6"
+  }
+}
