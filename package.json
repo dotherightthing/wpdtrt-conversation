@@ -3,7 +3,11 @@
   "name": "wpdtrt-conversation",
   "version": "1.0.0",
   "description": "Shortcode to author a conversation between two people.",
-  "keywords": ["conversation", "chat", "wordpress-plugin"],
+  "keywords": [
+    "conversation",
+    "chat",
+    "wordpress-plugin"
+  ],
   "main": "wpdtrt-conversation.php",
   "person": {
     "name": "Dan Smith",
