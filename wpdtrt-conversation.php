@@ -11,7 +11,7 @@
  * Plugin Name:  DTRT Conversation
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-conversation
  * Description:  Shortcode to author a conversation between two people.
- * Version:      1.0.0
+ * Version:      1.0.1
  * Author:       Dan Smith
  * Author URI:   https://profiles.wordpress.org/&#39;dotherightthingnz
  * License:      GPLv2 or later
@@ -62,7 +62,7 @@ if ( ! defined( 'WPDTRT_CONVERSATION_VERSION' ) ) {
 	 * $plugin_data = get_plugin_data( __FILE__ ); $plugin_version = $plugin_data['Version'];
 	 * ---
 	 */
-	define( 'WPDTRT_CONVERSATION_VERSION', '1.0.0' );
+	define( 'WPDTRT_CONVERSATION_VERSION', '1.0.1' );
 }
 
 if ( ! defined( 'WPDTRT_CONVERSATION_PATH' ) ) {
