@@ -1,5 +1,5 @@
 /**
- * @file cypress/integration/flows/wpdtrt-conversation.js
+ * @file cypress/e2e/flows/wpdtrt-conversation.js
  * @summary Cypress spec for End-to-End UI testing.
  * @requires DTRT WordPress Plugin Boilerplate Generator 0.9.5
  * {@link https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Testing-&-Debugging:-Cypress.io|Testing & Debugging: Cypress.io}
